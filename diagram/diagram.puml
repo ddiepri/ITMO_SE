@@ -1,0 +1,161 @@
+@startuml
+
+package architecture {
+    abstract class Structure {
+        +equals(Object obj) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class Apartment {
+        -rooms : List<Room>
+        +Apartment()
+        +addRoom(Room room) : void
+        +getRooms() : List<Room>
+        +equals(Object obj) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class Room extends Structure {
+        -roomType : RoomType
+        -components : List<Structure>
+        +Room(RoomType roomType)
+        +getRoomType() : RoomType
+        +setRoomType(RoomType roomType) : void
+        +addComponent(Structure component) : void
+        +getComponents() : List<Structure>
+        +equals(Object o) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    abstract class RoomItem {
+        +equals(Object o) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class Door extends RoomItem implements Lockable {
+        -locked : boolean
+        -room : Room
+        +Door()
+        +setRoom(Room room) : void
+        +lock() : void
+        +isLocked() : boolean
+        +unlock() : void
+        +equals(Object obj) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class Window extends RoomItem implements Lockable {
+        -locked : boolean
+        -room : Room
+        +Window()
+        +setRoom(Room room) : void
+        +lock() : void
+        +isLocked() : boolean
+        +unlock() : void
+        +equals(Object obj) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+}
+
+package characters {
+    abstract class Character {
+        -name : String
+        -emotionalState : EmotionalState
+        +Character()
+        +Character(String name)
+        +getName() : String
+        +setName(String name) : void
+        +getEmotionalState() : EmotionalState
+        +setEmotionalState(EmotionalState emotionalState) : void
+        +performActionBasedOnEmotion() : void
+        +equals(Object o) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class FrekenBock extends Character implements Thinkable {
+        +FrekenBock()
+        +respondNothing() : void
+        +stand() : void
+        +think() : void
+    }
+
+    class HousekeeperTamer extends Character implements Flyable {
+        -speed : int
+        +HousekeeperTamer()
+        +flyIn(RoomItem location) : void
+        +flyOut() : void
+        +setSpeed(int speed) : void
+        +lock(Lockable lockableObject) : void
+        +helpUnderstand() : void
+        +demonstrateLockedExperience() : void
+    }
+
+    class Kid extends Character {
+        +Kid()
+        +giggle() : void
+        +checkDoorStatus(Lockable door) : void
+    }
+
+    class Someone extends Character {
+        +Someone()
+        +lock(Lockable door) : void
+    }
+}
+
+package enums {
+    enum EmotionalState {
+        SILENT
+        CAUTIOUS
+        SUPERIOR
+        NEUTRAL
+        +getDescription() : String
+        +toString() : String
+        +value(String description) : EmotionalState
+    }
+
+    enum RoomType {
+        KITCHEN
+        LIVING_ROOM
+        BEDROOM
+        ROOMKID
+        BATHROOM
+        +getDescription() : String
+        +toString() : String
+        +value(String description) : RoomType
+    }
+}
+
+package interfaces {
+    interface Flyable {
+        +flyIn(RoomItem location) : void    
+        +flyOut() : void                
+        +setSpeed(int speed) : void      
+    }
+
+    interface Lockable {
+        +lock() : void             
+        +isLocked() : boolean      
+        +unlock() : void            
+    }
+
+    interface Thinkable {
+        +think() : void
+    }
+}
+
+characters.HousekeeperTamer --> interfaces.Flyable
+characters.FrekenBock --> interfaces.Thinkable
+characters.Someone --> interfaces.Lockable : uses >
+architecture.Door --> interfaces.Lockable
+architecture.Window --> interfaces.Lockable
+architecture.Room --> enums.RoomType : uses >
+characters.Character --> enums.EmotionalState : uses >
+
+@enduml
