@@ -1,0 +1,248 @@
+@startuml
+
+package architecture {
+
+    abstract class Structure {
+        +equals(Object obj) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class Apartment {
+        -rooms : List<Room>
+        +Apartment()
+        +addRoom(Room room) : void
+        +getRooms() : List<Room>
+        +equals(Object obj) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class Room extends Structure {
+        -roomType : RoomType
+        -components : List<Structure>
+        +Room(RoomType roomType)
+        +getRoomType() : RoomType
+        +setRoomType(RoomType roomType) : void
+        +addComponent(Structure component) : void
+        +getComponents() : List<Structure>
+        +equals(Object o) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    abstract class RoomItem {
+        +equals(Object o) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class Door extends RoomItem implements Lockable {
+        -locked : boolean
+        -room : Room
+        +Door()
+        +setRoom(Room room) : void
+        +lock() : void
+        +isLocked() : boolean
+        +unlock() : void
+        +equals(Object obj) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class Window extends RoomItem implements Lockable {
+        -locked : boolean
+        -room : Room
+        +Window()
+        +setRoom(Room room) : void
+        +lock() : void
+        +isLocked() : boolean
+        +unlock() : void
+        +equals(Object obj) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class Table extends Furniture {
+        +Table()
+        +clearTable() : void
+        +setTable() : void
+    }
+
+    class Chair extends Furniture {
+        +Chair()
+        +sitOn() : void
+        +standUp() : void
+    }
+
+    class Wardrobe extends Furniture {
+        +Wardrobe()
+        +search() : void
+        +openDoor() : void
+        +closeDoor() : void
+        +getDoor(): WardrobeDoor
+    }
+
+    class Furniture {
+        +Furniture(FurnitureType type)
+        +getType() : FurnitureType
+        +isInUse() : boolean
+        +setInUse(boolean inUse) : void
+        +equals(Object o) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class Taskbook {
+        -isOpen : boolean
+        +Taskbook()
+        +open() : void
+        +close() : void
+        +solveTask(String description) : void
+        +equals(Object obj) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+}
+
+package characters {
+    abstract class Character {
+        -name : String
+        -emotionalState : EmotionalState
+        +Character()
+        +Character(String name)
+        +getName() : String
+        +setName(String name) : void
+        +getEmotionalState() : EmotionalState
+        +setEmotionalState(EmotionalState emotionalState) : void
+        +performActionBasedOnEmotion() : void
+        +equals(Object obj) : boolean
+        +hashCode() : int
+        +toString() : String
+    }
+
+    class FrekenBock extends Character implements Thinkable {
+        +FrekenBock()
+        +noticeNothing() : void
+        +stand() : void
+        +think() : void
+        +tryToOpenDoor(Door door) : void
+        +roar() : void
+        +pushWithBody(Door door) : void
+        +search(Furniture furniture) : void
+        +turnAround() : void
+        +emergeFrom(Furniture furniture) : void
+        +see(Object obj) : void
+        +stepBack() : void
+        +leanOn(Wardrobe wardrobe) : void
+        +blinkEyes() : void
+        +respondNothing() : void
+    }
+
+    class HousekeeperTamer extends Character implements Flyable {
+        -speed : int
+        +HousekeeperTamer()
+        +flyIn(RoomItem location) : void
+        +flyOut() : void
+        +setSpeed(int speed) : void
+        +lock(Lockable lockableObject) : void
+        +helpUnderstand() : void
+        +demonstrateLockedExperience() : void
+    }
+
+    class Kid extends Character {
+        +Kid()
+        +giggle() : void
+        +checkDoorStatus(Lockable door) : void
+        +considerBadIdea() : void
+        +promiseToHelp() : void
+        +sneakToFurniture(Furniture furniture) : void
+        +sitOnFurniture(Furniture furniture) : void
+        +listen() : void
+        +waitMoment() : void
+    }
+
+    class Someone extends Character {
+        +Someone()
+        +lock(Lockable door) : void
+    }
+}
+
+package enums {
+    enum EmotionalState {
+        SILENT
+        QUIET
+        CAUTIOUS
+        SUPERIOR
+        NEUTRAL
+        TENSE
+        +getDescription() : String
+        +toString() : String
+    }
+
+    enum RoomType {
+        KITCHEN
+        LIVING_ROOM
+        BEDROOM
+        ROOMKID
+        BATHROOM
+        +RoomType(String description)
+        +getDescription() : String
+        +toString() : String
+    }
+
+    enum FurnitureType {
+        TABLE
+        CHAIR
+        WARDROBE
+        SOFA
+        BED
+        DESK
+        SHELF
+        +FurnitureType(String description)
+        +getDescription() : String
+        +toString() : String
+    }
+}
+
+package interfaces {
+    interface Flyable {
+        +flyIn(RoomItem location) : void    
+        +flyOut() : void                
+        +setSpeed(int speed) : void      
+    }
+
+    interface Lockable {
+        +lock() : void             
+        +isLocked() : boolean      
+        +unlock() : void            
+    }
+
+    interface Thinkable {
+        +think() : void
+    }
+}
+
+package exceptions {
+    class DoorLockedException extends Exception {
+        +DoorLockedException(String message)
+    }
+
+    class FurnitureAlreadyInUseException extends RuntimeException {
+        +FurnitureAlreadyInUseException(String message)
+    }
+}
+
+characters.HousekeeperTamer --> interfaces.Flyable
+characters.FrekenBock --> interfaces.Thinkable
+characters.Someone --> interfaces.Lockable : uses >
+architecture.Door --> interfaces.Lockable
+architecture.Window --> interfaces.Lockable
+architecture.Room --> enums.RoomType : uses >
+characters.Character --> enums.EmotionalState : uses >
+
+enums.FurnitureType <|-- architecture.Chair : uses >
+enums.FurnitureType <|-- architecture.Table : uses >
+enums.FurnitureType <|-- architecture.Wardrobe : uses >
+
+@enduml
