@@ -1,0 +1,59 @@
+<flats>
+    <flat>
+        <id>1</id>
+        <name>Apartment One</name>
+        <coordinates>
+            <x>1.0</x>
+            <y>1.0</y>
+        </coordinates>
+        <creationDate>2023-08-25</creationDate>
+        <area>50</area>
+        <numberOfRooms>2</numberOfRooms>
+        <isNew>true</isNew>
+        <timeToMetroByTransport>10.0</timeToMetroByTransport>
+        <view>GOOD</view> 
+        <house>
+            <name>House A</name>
+            <year>2000</year>
+            <numberOfFlatsOnFloor>10</numberOfFlatsOnFloor>
+        </house>
+    </flat>
+    <flat>
+        <id>2</id>
+        <name>Apartment Two</name>
+        <coordinates>
+            <x>2.0</x>
+            <y>2.0</y>
+        </coordinates>
+        <creationDate>2022-01-15</creationDate>
+        <area>75</area>
+        <numberOfRooms>3</numberOfRooms>
+        <isNew>false</isNew>
+        <timeToMetroByTransport>15.5</timeToMetroByTransport>
+        <view>NORMAL</view>
+        <house>
+            <name>House B</name>
+            <year>2010</year>
+            <numberOfFlatsOnFloor>8</numberOfFlatsOnFloor>
+        </house>
+    </flat>
+    <flat>
+        <id>3</id>
+        <name>Apartment Three</name>
+        <coordinates>
+            <x>0.213456789</x>
+            <y>0.2134568</y>
+        </coordinates>
+        <creationDate>2021-11-20</creationDate>
+        <area>120</area>
+        <numberOfRooms>4</numberOfRooms>
+        <isNew>true</isNew>
+        <timeToMetroByTransport>20.0</timeToMetroByTransport>
+        <view>GOOD</view> 
+        <house>
+            <name>House C</name>
+            <year>2015</year>
+            <numberOfFlatsOnFloor>12</numberOfFlatsOnFloor>
+        </house>
+    </flat>
+</flats>
